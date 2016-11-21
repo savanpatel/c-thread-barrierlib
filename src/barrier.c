@@ -7,19 +7,28 @@
 
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t  finish_cond  = PTHREAD_COND_INITIALIZER;
-int barrier = 0;
+int __barrier = 0;
+
+
+
 
 /*
- *  Initialize barrier with total number of threads.
+ * params : number of threads a process is creating.
+ * returns : none.
+ *
+ * Initialize barrier with total number of threads.
  */
 void _barrier_init(int n_threads)
 {
-    barrier = n_threads;
+    __barrier = n_threads;
 }
 
 
 
 /*
+ * params: none.
+ * returns: -1 on failure, 0 on success.
+ * decrement the count by 1.
  *
  */
 int _decrement()
@@ -31,7 +40,7 @@ int _decrement()
     }
 
 
-    barrier--;
+    __barrier--;
 
 
     if(pthread_mutex_unlock(&lock) != 0)
@@ -40,12 +49,19 @@ int _decrement()
         return -1;
     }
 
-    return 1;
+    return 0;
 }
 
 
 
 
+/*
+ *  params: none.
+ *  returns: int : 0 on sucess, -1 on failure.
+ *
+ *
+ *  wait for other threads to complete.
+ */
 int _wait_barrier()
 {
     if(_decrement() < 0)
@@ -54,7 +70,7 @@ int _wait_barrier()
     }
 
 
-    while (barrier)
+    while (__barrier)
     {
         if(pthread_mutex_lock(&lock) != 0)
         {
@@ -69,7 +85,10 @@ int _wait_barrier()
         }
     }
 
-    if(0 == barrier)
+    /*
+     * last thread will execute this.
+     */
+    if(0 == __barrier)
     {
         if(pthread_mutex_unlock(&lock) != 0)
         {

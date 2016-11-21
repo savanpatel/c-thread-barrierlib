@@ -3,40 +3,21 @@
 #include<stdlib.h>
 #include <unistd.h>
 #include "barrier.h"
-//pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-
-//int b;
 
 
-
-
-
-
-/*void atomic_increment()
-{
-    pthread_mutex_lock(&lock);
-    b++;
-    pthread_mutex_unlock(&lock);
-}*/
 
 void * barrier_test(void *numthreads)
 {
-     int r = rand() % 20;
-     printf("Sleeping for %d\n", r);
-     //sleep(r);
-     /*//sleep(r);
-     atomic_increment();
-     while(b < *(int *)numthreads)
-     {
-        // sleep(1);
-     }*/
+     int r = rand() % 5;
+     printf("\nPerforming init task of length %d sec", r);
+     sleep(r);
+
      _wait_barrier();
-     printf("I am task after barrier\n");
+
+     printf("\nI am task after barrier");
 
      return  NULL;
 }
-
-
 
 
 
