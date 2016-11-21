@@ -6,7 +6,7 @@ pthread barriers implementation as shared library.
 
 CyclicBarrier in Java provides a thread synchronization mechanism where a thread waits for other sibling threads to complete thier task and arrive at a certain execution point. CyclicBarrier is a natural requirement for a concurrent program because it can be used to perform final part of the task once individual tasks  are completed.
 
-For example, a multiplayer game can not begun unless all the player threads have finished with initialization.
+For example, a multiplayer game can not begin unless all the player threads have finished with initialization.
 
 barrierlib is a shared library in c providing similar support for the pthreads.
 
